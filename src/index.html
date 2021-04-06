@@ -20,20 +20,23 @@
         <h5>1. Choose a zip file</h5><br>
         <input class="btn btn-primary" type="file" id="file-input" accept="application/zip">
         <br><br>
-        <h5>2. Make sure you have a workspace opened you want the files to be in.</h5>
+        <h5>2. Check your files down below</h5>
+        <div>Scroll down and check the list of file that will be imported.</div>
+        <br>
+        <h5>3. Make sure you have a workspace opened you want the files to be in.</h5>
         <div>Create a new workspace in the File Explorers and remove the demo files.</div>
-        <br><br>
-        <h5>3. Set the root folder to ignore, ie remixbackup.</h5>
+        <br>
+        <h5>4. Set the root folder to ignore, ie remixbackup.</h5>
         <div class="description">
             Your zip file probably has a root folder, called remixbackup, this import will ignore that and just import what is contained in it.
         </div><br>
         <input type="text" id="ignoreroot" value="remixbackup">
         <br><br>
-        <h5>4. Import your files.</h5><br>
+        <h5>5. Import your files.</h5><br>
         <div class="btn btn-primary" id='importbutton'>Import now</div>
         <div style="display: none;" id='wait'>please wait...</div>
         <br><br>
-        <h5>5. Something went wrong?</h5><br>
+        <h5>6. Something went wrong?</h5><br>
         <div class="btn btn-secondary" id='reset'>Start over</div>
         <hr>
         <h5 style="display: none;" id="log">Log</h5>
