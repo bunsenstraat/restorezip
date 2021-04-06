@@ -1,6 +1,7 @@
 import {
     ZipReader,
-    BlobReader
+    BlobReader,
+    BlobWriter
 } from '@zip.js/zip.js'
 import {
     PluginClient
@@ -82,7 +83,8 @@ $(function () {
                         }
                     } else {
                         try {
-                            await client.call("fileManager", "setFile", value.filename, "nonsense")
+                            let content = await (await value.getData(new BlobWriter())).text()
+                            await client.call("fileManager", "setFile", value.filename, content)
                         } catch (e) {
                             $("#log-entry").append(`<li>${e}</>`)
                         }
