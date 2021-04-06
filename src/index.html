@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Upload zip to remix</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>Restore Remix Backup ZIP</h1>
+        <div class="alert alert-primary">
+            Restore your Remix Zip backups to a workspace.
+            <br>This only applies to zip files you created by using the 'Download all files button' on the homepage before you migrated Remix to use workspaces.
+            <br>If your zip file contains a .workspaces folder this will be ignored, only files not in .workspaces will be imported.
+        </div>
+
+        <br>
+        <h5>1. Choose a zip file</h5><br>
+        <input class="btn btn-primary" type="file" id="file-input" accept="application/zip">
+        <br><br>
+        <h5>2. Make sure you have a workspace opened you want the files to be in.</h5>
+        <div>Create a new workspace in the File Explorers and remove the demo files.</div>
+        <br><br>
+        <h5>3. Set the root folder to ignore, ie remixbackup.</h5>
+        <div class="description">
+            Your zip file probably has a root folder, called remixbackup, this import will ignore that and just import what is contained in it.
+        </div><br>
+        <input type="text" id="ignoreroot" value="remixbackup">
+        <br><br>
+        <h5>4. Import your files.</h5><br>
+        <div class="btn btn-primary" id='importbutton'>Import now</div>
+        <div style="display: none;" id='wait'>please wait...</div>
+        <br><br>
+        <h5>5. Something went wrong?</h5><br>
+        <div class="btn btn-secondary" id='reset'>Start over</div>
+        <hr>
+        <h5 style="display: none;" id="log">Log</h5>
+        <ul id="log-entry"  class="empty">
+        </ul>
+        <h5 style="display: none;" id="files">Your files</h5>
+        <ul id="file-list" class="empty">
+        </ul>
+
+
+
+    </div>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
