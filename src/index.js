@@ -88,7 +88,7 @@ $(function () {
                     }
                 }
             }else{
-                $("#log-entry").append(`<li>Won't create ${filename}</>`)
+                $("#log-entry").append(`<li>Ignoring ${filename}</>`)
             }
         }
     }
