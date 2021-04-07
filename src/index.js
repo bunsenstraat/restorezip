@@ -46,8 +46,12 @@ $(function () {
 
         function render(value, index, array) {
             if (value.filename.indexOf('.workspaces') < 0) {
-
-                $("#file-list").append(`<li>${value.filename}</>`)
+                let icon = ``
+                if(!value.directory)
+                    icon = `<span class='fas fa-upload pr-3'></span>`
+                else
+                    icon = `<span class="fas fa-folder-plus pr-3"></span>`
+                $("#file-list").append(`<li data-id='${index}' class='importfile'>${icon}${value.filename}</li>`)
                 console.log(value.filename)
             }
 
@@ -55,6 +59,40 @@ $(function () {
         console.log("done")
         console.log(files)
     }
+
+    $(document).on('click', '.importfile', async function (event) {
+        console.log($(event.currentTarget).attr('data-id'))
+        await importfile(files[$(event.currentTarget).attr('data-id')])
+    })
+
+    const importfile = async function(value){
+        const ignore = $("#ignoreroot").val()
+        const replace = `^${ignore}`;
+        const re = new RegExp(replace);
+        if (value.filename.indexOf('.workspaces') < 0 && value.filename != '/') {
+            let filename = value.filename.replace(re, '')
+            console.log(filename)
+            if (filename != '/') {
+                if (value.directory) {
+                    try {
+                        await client.call("fileManager", "mkdir", filename)
+                    } catch (e) {
+                        $("#log-entry").append(`<li>${e}</>`)
+                    }
+                } else {
+                    try {
+                        let content = await (await value.getData(new BlobWriter())).text()
+                        await client.call("fileManager", "setFile", filename, content)
+                    } catch (e) {
+                        $("#log-entry").append(`<li>${e}</>`)
+                    }
+                }
+            }else{
+                $("#log-entry").append(`<li>Can't create ${filename}</>`)
+            }
+        }
+    }
+
 
     $(document).on('click', '#reset', async function () {
         window.location.reload()
@@ -64,33 +102,13 @@ $(function () {
         console.log("import")
         $("#wait").html("please wait")
         $("#wait").show();
-        const ignore = $("#ignoreroot").val()
-        const replace = `^${ignore}`;
-        const re = new RegExp(replace);
+
+
         $("#log").show();
         $("#log-entry").empty()
         for (const value of files) {
             console.log(value)
-            if (value.filename.indexOf('.workspaces') < 0 && value.filename != '/') {
-                value.filename = value.filename.replace(re, '')
-                console.log(value.filename)
-                if (value.filename != '/') {
-                    if (value.directory) {
-                        try {
-                            await client.call("fileManager", "mkdir", value.filename)
-                        } catch (e) {
-                            $("#log-entry").append(`<li>${e}</>`)
-                        }
-                    } else {
-                        try {
-                            let content = await (await value.getData(new BlobWriter())).text()
-                            await client.call("fileManager", "setFile", value.filename, content)
-                        } catch (e) {
-                            $("#log-entry").append(`<li>${e}</>`)
-                        }
-                    }
-                }
-            }
+            await importfile(value)
         }
         $("#wait").html("import done")
     })

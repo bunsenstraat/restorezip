@@ -5,11 +5,22 @@
     <meta charset="utf-8">
     <title>Upload zip to remix</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <style>
+        .importfile {
+            cursor: pointer;
+            list-style-type: none;
+        }
+
+        .btn {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid">
-        <h1>Restore Remix Backup ZIP</h1>
+        <h1 class="pt-2">Restore Remix Backup Zip</h1>
         <div class="alert alert-primary">
             Restore your Remix Zip backups to a workspace.
             <br>This only applies to zip files you created by using the 'Download all files button' on the homepage before you migrated Remix to use workspaces.
@@ -30,12 +41,16 @@
         <div class="description">
             Your zip file probably has a root folder, called remixbackup, this import will ignore that and just import what is contained in it.
         </div><br>
-        <input type="text" id="ignoreroot" value="remixbackup">
+        <input type="text" id="ignoreroot" class="form-control" value="remixbackup">
         <br><br>
         <h5>5. Import your files.</h5><br>
-        <div class="btn btn-primary" id='importbutton'>Import now</div>
-        <div style="display: none;" id='wait'>please wait...</div>
+        <div class="btn btn-primary" id='importbutton'>Import All Files</div>
         <br><br>
+        <div class="description">
+            Or select individual files in the list below to import.
+        </div>
+        <div style="display: none;" id='wait'>please wait...</div>
+        <br>
         <h5>6. Something went wrong?</h5><br>
         <div class="btn btn-secondary" id='reset'>Start over</div>
         <hr>
