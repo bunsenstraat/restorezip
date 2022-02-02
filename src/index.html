@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <title>Upload zip to remix</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
     <style>
         .importfile {
             cursor: pointer;
@@ -23,50 +25,50 @@
         <h1 class="pt-2">Restore Remix Backup Zip</h1>
         <div class="alert alert-primary">
             Restore your Remix Zip backups to a workspace.
-            <br>This only applies to zip files you created by using the 'Download all files button' on the homepage before you migrated Remix to use workspaces.
-            <br>If your zip file contains a .workspaces folder this will be ignored, only files not in .workspaces will be imported.
+            <br>This only applies to zip files you created by using the 'Download Backup' on the homepage.
         </div>
 
         <br>
-        <h5>1. Choose a zip file</h5><br>
+        <h5>Upload a zip file</h5><br>
+        <div>Workspaces in this zip will be displayed below.</div>
         <input class="btn btn-primary" type="file" id="file-input" accept="application/zip">
         <br><br>
-        <h5>2. Check your files down below</h5>
-        <div>Scroll down and check the list of files that will be imported.</div>
-        <br>
-        <h5>3. Make sure you have a workspace opened you want the files to be in.</h5>
-        <div>Create a new workspace in the File Explorers and remove the demo files.</div>
-        <br>
-        <h5>4. Set the root folder to ignore, ie remixbackup.</h5>
-        <div class="description">
-            Your zip file probably has a root folder, called remixbackup, this import will ignore that and just import what is contained in it.
-        </div><br>
-        <input type="text" id="ignoreroot" class="form-control" value="remixbackup">
-        <br><br>
-        <h5>5. Import your files.</h5><br>
-        <div class="btn btn-primary" id='importbutton'>Import All Files</div>
-        <br><br>
-        <div class="description">
-            Or select individual files in the list below to import.
-        </div>
-        <div style="display: none;" id='wait'>please wait...</div>
-        <br>
-        <h5>6. Something went wrong?</h5>
-        <div>Do not worry, create a new workspace and start over.</div>
-        <br>
-        <div class="btn btn-secondary" id='reset'>Start over</div>
-        <hr>
-        <h5 style="display: none;" id="log">Log</h5>
-        <ul id="log-entry"  class="empty">
-        </ul>
-        <h5 style="display: none;" id="files">Your files</h5>
+        <h5 style="display: none;" id="files">Your workspaces</h5>
         <ul id="file-list" class="empty">
+        </ul>
+        <br>
+        <h5 style="display: none;" id="log">Log</h5>
+        <ul id="log-entry" class="empty">
         </ul>
 
 
 
     </div>
-    <script type="text/javascript" src="main.js"></script>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import this workspace?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Create this workspace and import the files?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="bundle.js"></script>
 </body>
 
 </html>
