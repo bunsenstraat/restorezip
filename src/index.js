@@ -38,7 +38,6 @@ $(function () {
         $("#files").show();
         //console.log(event.target.files[0])
         files = await (new ZipReader(new BlobReader(event.target.files[0]))).getEntries()
-        //console.log(files)
         $("#file-list").empty()
         files.forEach(render)
 
@@ -56,7 +55,6 @@ $(function () {
                 //console.log(value.filename)
                }
             }
-
         }
         //console.log("done")
         //console.log(files)
@@ -67,14 +65,29 @@ $(function () {
         await importfile(files[$(event.currentTarget).attr('data-id')])
     })
 
+    const createNonClashingDirNameAsync = (workspace, workspaces) => {
+        if (!workspace) workspace = 'Undefined'
+        let counter = ''
+        let exist = true
+    
+        do {
+          const isDuplicate = workspaces.indexOf(workspace + counter) > -1
+    
+          if (isDuplicate) counter = (counter | 0) + 1
+          else exist = false
+        } while (exist)
+    
+        return workspace + counter
+      }
+
     const importfile = async function(value){
         // console.log(value)
         $("#log").show()
         const workspace = value.filename.split(path.sep).filter((x) => x != '')[1]
-
+        const workspaces = await client.call('filePanel','getWorkspaces')
+        const worskspacetocreate = createNonClashingDirNameAsync(workspace, workspaces)
         try {
-            await client.call('filePanel', 'createWorkspace', workspace, true)
-            // await client.call("fileManager", "setFile", 'p777/p2/4p/4354/3232423', 'testing')
+            await client.call('filePanel', 'createWorkspace', worskspacetocreate, true)
             for(const ob of files){
                 const paths = ob.filename.split(path.sep).filter((x) => x != '')
                 if(paths[1] && paths[1] === workspace && paths.length > 2){
@@ -83,7 +96,7 @@ $(function () {
                     if (ob.directory) {
                         try {
                            await client.call("fileManager", "mkdir", finalpath)
-                           $("#log-entry").append(`<li>imported ${finalpath}  into ${workspace}</>`)
+                           $("#log-entry").append(`<li>imported ${finalpath}  into ${worskspacetocreate}</>`)
                         } catch (e) {
                             $("#log-entry").append(`<li class='text-danger'>${e}</>`)
                         }
@@ -93,7 +106,7 @@ $(function () {
                             const dir = path.dirname(ob.filename)
                             // console.log(dir)
                             await client.call("fileManager", "setFile", finalpath, content)
-                            $("#log-entry").append(`<li>imported ${finalpath}  into ${workspace}</>`)
+                            $("#log-entry").append(`<li>imported ${finalpath}  into ${worskspacetocreate}</>`)
                         } catch (e) {
                             $("#log-entry").append(`<li class='text-danger'>${e}</>`)
                         }
